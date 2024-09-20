@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css"> <!-- Your custom CSS -->
+    <style>
+       
+   
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Social Media</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Post Details -->
+        <div class="card custom-card mb-4">
+            <% if (post.imageUrl) { %>
+                <img src="<%= post.imageUrl %>" class="card-img-top custom-img" alt="Post Image">
+            <% } %>
+            <div class="card-body">
+                <h5 class="card-title"><%= post.author %></h5>
+                <p class="card-text"><%= post.content %></p>
+                <form action="/like-post/<%= post._id %>" method="POST">
+                    <button type="submit" class="btn btn-primary">Like (<%= post.likes %>)</button>
+                </form>
+                <a href="/" class="btn btn-secondary mt-2">Back to Home</a>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <h4>Comments</h4>
+        <% if (post.comments && post.comments.length > 0) { %>
+            <ul class="list-group">
+                <% post.comments.forEach(comment => { %>
+                    <li class="list-group-item">
+                        <strong><%= comment.author %>:</strong> <%= comment.text %>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No comments yet.</p>
+        <% } %>
+
+        <!-- Comment Form -->
+        <form action="/add-comment/<%= post._id %>" method="POST" class="mt-4">
+            <div class="form-group">
+                <input type="text" name="author" class="form-control" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+                <textarea name="text" class="form-control" rows="3" placeholder="Your comment" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Add Comment</button>
+        </form>
+    </div>
+
+   
+</body>
+</html>

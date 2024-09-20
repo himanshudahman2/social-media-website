@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendify</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css"> <!-- Your custom CSS -->
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Trendify</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Post Form -->
+        <form action="/create-post" method="POST" class="mb-4">
+            <div class="form-group">
+                <input type="text" name="author" class="form-control" placeholder="Author name">
+            </div>
+            <div class="form-group">
+                <input type="text" name="imageUrl" class="form-control" placeholder="Image URL">
+            </div>
+            <div class="form-group">
+                <input type="text" name="content" class="form-control" placeholder="Post content" required>
+            </div>
+            <button type="submit" class="btn btn-success">Create Post</button>
+        </form>
+
+        <!-- Display Posts -->
+        <div class="row">
+            <% posts.forEach(post => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= post.author %></h5>
+                            <% if (post.imageUrl) { %>
+                                <img src="<%= post.imageUrl %>" class="card-img-top custom-img" alt="Post Image">
+                            <% } %>
+                            <p class="card-text mt-2"><%= post.content %></p>
+                            <form action="/like-post/<%= post._id %>" method="POST">
+                                <button type="submit" class="btn btn-primary">Like (<%= post.likes %>)</button>
+                            </form>
+                            <a href="/post-details/<%= post._id %>" class="btn btn-info mt-2">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+</body>
+</html>
